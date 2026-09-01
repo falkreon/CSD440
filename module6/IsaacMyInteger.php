@@ -35,6 +35,14 @@ class MyInteger {
 		return TRUE;
 	}
 
+	public function isEven(): bool {
+		return $this->value % 2 == 0;
+	}
+
+	public function isOdd(): bool {
+		return $this->value % 2 != 0;
+	}
+
 	/**
 	 * Gets this MyInteger's value.
 	 * @return The value of this MyInteger
@@ -52,42 +60,70 @@ class MyInteger {
 	}
 }
 
-function showMyInteger(MyInteger $obj): void {
-	if ($obj->isPrime()) {
+function showMyInteger(MyInteger $obj, callable $predicate): void {
+	if ($predicate($obj)) {
 	?>
-		<div class="myint prime"><?= $obj->getValue(); ?></div>
+		<div class="myint green"><?= $obj->getValue(); ?></div>
 	<?php
 	} else {
 	?>
-		<div class="myint nonprime"><?= $obj->getValue(); ?></div>
+		<div class="myint red"><?= $obj->getValue(); ?></div>
 	<?php
+	}
+}
+
+function test(array $testNumbers, callable $predicate) {
+	$obj = new MyInteger();
+	foreach($testNumbers as $testNumber) {
+		$obj->setValue($testNumber);
+		showMyInteger($obj, $predicate);
 	}
 }
 
 function testPrimes(): void {
-	$testNumbers = [
-		// Some primes:
-		3, 13, 691, 1087,
-		// Some nonprimes:
-		25, 822, 6, 104,
-		// Some oddball nonprimes:
-		-5, 1
-	];
-
-	$obj = new MyInteger();
-
-	?>
-	<div class="myints">
-	<?php
-
-	foreach($testNumbers as $testNumber) {
-		$obj->setValue($testNumber);
-		showMyInteger($obj);
-	}
-	?>
-	</div>
-	<?php
+	test(
+		[
+			// Some primes:
+			3, 13, 691, 1087,
+			// Some nonprimes:
+			25, 822, 6, 104,
+			// Some oddball nonprimes:
+			-5, 1
+		],
+		function(MyInteger $it): bool { return $it->isPrime(); }
+	);
 }
+
+function testEvens(): void {
+	test(
+		[
+			// Evens
+			2, 18, 26, 1982,
+			// Odds
+			7, 11, 691, 7901,
+			// Oddballs
+			0, -1, -2, -91
+		],
+		function(MyInteger $it): bool { return $it->isEven(); }
+	);
+}
+
+
+function testOdds(): void {
+	test(
+		[
+			// Evens
+			2, 18, 26, 1982,
+			// Odds
+			7, 11, 691, 7901,
+			// Oddballs
+			0, -1, -2, -91
+		],
+		function(MyInteger $it): bool { return $it->isOdd(); }
+	);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -113,10 +149,10 @@ function testPrimes(): void {
 			box-shadow: 5px 5px rgba(0,0,0,0.12);
 			text-align: center;
 		}
-		.prime {
+		.green {
 			background: #9F9;
 		}
-		.nonprime {
+		.red {
 			background: #F99;
 		}
 		h1, h2 { text-align: center; margin-top: 48px; }
@@ -128,19 +164,26 @@ function testPrimes(): void {
 		<h1>CSD440 Module 6: PHP Objects</h1>
 		<h2>IsPrime Tests</h2>
 		<p>(Green values are prime, red are nonprime)
+		<div class="myints">
 		<?php
 		testPrimes();
 		?>
-		<h2>Making a second instance for some reason</h2>
-		<p>I made it huge just for fun.
+		</div>
+
+		<h2>IsEven Tests</h2>
+		<p>(Green values are even, red values are not)
 		<div class="myints">
 		<?php
-		$extraInstance = new MyInteger(60661); // 60,661 is prime and should be green.
-		showMyInteger($extraInstance);
+		testEvens();
 		?>
 		</div>
 
-		<h2>Notes</h2>
-		<p>IsPrime Tests uses a single instance of MyInteger for all its values. It repeatedly sets the value, tests the primeness, and emits the value and primeness based on getValue, so all code is adequately covered in just the first section here.
+		<h2>IsOdd Tests</h2>
+		<p>(Green values are odd, green values are not. Should be the opposite if IsEven)
+		<div class="myints">
+		<?php
+		testOdds();
+		?>
+		</div>
 	</body>
 </html>
