@@ -1,0 +1,93 @@
+/*
+ * CSD440: Server Side Scripting
+ * Module 8: MySQL and PHP
+ *   Programming Assignment
+ * Isaac Ellingson
+ * 9/15/2026
+ *
+ * Since we already had four (now five) pages, I felt a unified CSS was the way to go.
+ */
+
+* {
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+h1, h2, h3 {
+	text-align: center;
+}
+
+body {
+	background-color: #777;
+	margin:0;
+	padding:0;
+}
+
+section {
+	background-color: #fff;
+	max-width: 1024px;
+	min-height: 100vh;
+	margin: 0 auto;
+	padding: 32px;
+}
+
+table {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table caption {
+	border: 1px solid #000;
+	background-color: #444;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+thead td {
+	vertical-align: text-top;
+	font-weight: bold;
+	min-width: 70px;
+	border-bottom: 2px solid #777;
+}
+
+table td {
+	padding: 12px;
+}
+
+table tr:nth-child(even) {
+	background-color: #eee;
+}
+
+nav {
+	width: 100%;
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+nav a {
+	display: block;
+	font-weight: bold;
+	text-decoration: none;
+	font-size: 1.5em;
+}
+
+.success {
+	width: 100%;
+	background-color: #9f9;
+	font-size: 1.3em;
+	padding: 8px;
+}
+
+.error {
+	width: 100%;
+	background-color: #f99;
+	font-size: 1.3em;
+	padding: 8px;
+}
+
